@@ -1,0 +1,33 @@
+{
+  "env": {
+    // Used as the default for running babel
+    "development": {
+      "sourceMaps": "both",
+      "presets": [["env", {
+        "targets": {
+          "node": "current"
+        }
+      }], "stage-2", "react"],
+      "ignore": [
+        "src/*.test.js"
+      ]
+    },
+    // Jest runs with NODE_ENV=test and will use the following.
+    // We target the current node version to minimize transcompilation.
+    // This should speed up the test run and make it more debugable.
+    "test": {
+      "sourceMaps": "both",
+      "presets": [["env", {
+        "targets": {
+          "node": "current"
+        }
+      }], "stage-2", "react"]
+    }
+  },
+  // Common to all envs above.
+  "plugins": [
+    // Makes sure babel does not include the same code snipped in each file,
+    // but imports helpers from a single module.
+    // "transform-runtime"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "transform": {
+    "^.+\\.js$": "babel-jest"
+  },
+  "transformIgnorePatterns": ["/node_modules/(?!ol/).*"],
+  "testRegex": "src.+\\.test\\.js$",
+  "timers": "fake",
+  "clearMocks": true,
+  "resetMocks": false,
+  "collectCoverage": true,
+  "coverageDirectory": "./build/cov",
+  "coverageReporters": ["lcov"],
+  "coverageThreshold": {
+    "global": {
+      "branches": 100,
+      "functions": 100,
+      "lines": 100,
+      "statements": 100
+    }
+  }
+}
