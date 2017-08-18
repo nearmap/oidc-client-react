@@ -1,6 +1,6 @@
 {
   "name": "react-oidc",
-  "version": "0.1.0",
+  "version": "0.1.0-alpha.1",
   "description": "A react wrapper for oidc-client",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "jest": "jest --runInBand --no-cache --verbose --config ./jest.config.json",
     "lint": "run-s -s lint:*",
     "clean-build": "run-s clean build",
-    "build": "run-s build:* pkg:*",
+    "build": "run-s clean build:* pkg:*",
     "build:lib": "babel --ignore *.test.js --source-maps --out-dir build/pkg src",
     "pkg:pkg": "cp package.json build/pkg/",
     "pkg:html": "cp src/silent_renew.html build/pkg/",
