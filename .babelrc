@@ -7,10 +7,7 @@
         "targets": {
           "node": "current"
         }
-      }], "stage-2", "react"],
-      "ignore": [
-        "src/*.test.js"
-      ]
+      }], "stage-2", "react"]
     },
     // Jest runs with NODE_ENV=test and will use the following.
     // We target the current node version to minimize transcompilation.
