@@ -2,12 +2,12 @@ import {userLoaded, userExpired, userExpiring} from './actions';
 import {renewError, tokenError} from './actions';
 
 
-export const getMapStateToProps = (config, location, stateKey='oidc')=> (state)=> ({
+export const getMapStateToProps = (config, location, key='oidc')=> (state)=> ({
   config,
   url: location.href,
   state: location.hash,
-  needsLogin: state[stateKey].loginRequired,
-  needsLogout: state[stateKey].logoutRequired
+  needsLogin: state[key].loginRequired,
+  needsLogout: state[key].logoutRequired
 });
 
 export const mapDispatchToProps = (dispatch)=> ({
