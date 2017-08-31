@@ -1,5 +1,5 @@
 {
-  "name": "react-oidc",
+  "name": "oidc-client-react",
   "version": "0.1.0-alpha.1",
   "description": "A react wrapper for oidc-client",
   "main": "index.js",
@@ -17,11 +17,11 @@
     "pkg:docs": "cp README.md build/pkg/",
     "test": "run-s -s lint jest",
     "preci": "npm --loglevel=warn install",
-    "ci": "run-s -s clean test build package"
+    "ci": "run-s -s clean test build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nearmap/react-oidc.git"
+    "url": "git+https://github.com/nearmap/oidc-client-react.git"
   },
   "keywords": [
     "react",
@@ -32,9 +32,9 @@
   "author": "Jan Klaas Kollhof <jan@kollhof.net>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nearmap/react-oidc/issues"
+    "url": "https://github.com/nearmap/oidc-client-react/issues"
   },
-  "homepage": "https://github.com/nearmap/react-oidc#readme",
+  "homepage": "https://github.com/nearmap/oidc-client-react#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
