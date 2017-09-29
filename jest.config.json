@@ -1,9 +1,15 @@
 {
+  "setupFiles": [
+    "<rootDir>/src/testing/shim.js",
+    "<rootDir>/src/testing/setup.js"
+  ],
   "transform": {
     "^.+\\.js$": "babel-jest"
   },
-  "transformIgnorePatterns": ["/node_modules/(?!ol/).*"],
+  "transformIgnorePatterns": ["/node_modules/.*"],
   "testRegex": "src.+\\.test\\.js$",
+  "modulePathIgnorePatterns": ["build"],
+  "testPathIgnorePatterns": ["node_modules", "build"],
   "timers": "fake",
   "clearMocks": true,
   "resetMocks": false,
