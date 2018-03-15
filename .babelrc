@@ -23,9 +23,9 @@
     }
   },
   // Common to all envs above.
-  plugins: [
+  /* plugins: [
     ["transform-es2015-modules-commonjs", {
       loose: true
     }]
-  ]
+  ] */
 }

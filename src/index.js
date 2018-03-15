@@ -21,6 +21,7 @@ export default class Oidc extends React.Component {
     state: PropTypes.string,
     needsLogin: PropTypes.bool,
     needsLogout: PropTypes.bool,
+    stateToUrl: PropTypes.func,
     onUserLoaded: PropTypes.func,
     onUserExpired: PropTypes.func,
     onUserExpiring: PropTypes.func,
@@ -117,7 +118,10 @@ export default class Oidc extends React.Component {
       // when we come back from a signinRedirect we should
       // remove the token data from the URL and replace it with the
       // state we had before the user was redirected away from the app
-      history.replaceState(null, null, `${location.pathname}${state}`);
+      const url = typeof this.props.stateToUrl === 'function'
+        ? this.props.stateToUrl(state)
+        : `${location.pathname}${state}`;
+      history.replaceState(null, null, url);
     }
 
     this.handle(this.props.onUserLoaded, claims, accessToken);
