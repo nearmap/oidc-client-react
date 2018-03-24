@@ -1,7 +1,5 @@
 /* eslint-disable no-undef */
-export {
-  document,
-  location,
-  history,
-  localStorage
-};
+export const localStorage = window.localStorage;
+export const location = window.location;
+export const document = window.document;
+export const history = window.history;
