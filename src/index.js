@@ -141,8 +141,8 @@ export default class Oidc extends React.Component {
     }
   }
 
-  componentWillReceiveProps(props) {
-    const {state, needsLogin, needsLogout} = props;
+  componentDidUpdate() {
+    const {state, needsLogin, needsLogout} = this.props;
 
     if (needsLogout) {
       this.signoutRedirect();

@@ -38,12 +38,7 @@ jest.mock('./globals', ()=> ({
 jest.mock('./expiry-workaround', ()=> jest.fn());
 
 
-const withLifeCycle = {
-  lifecycleExperimental: true
-};
-
 const anyFunc = expect.any(Function);
-
 
 beforeEach(()=> {
   location.hash = '';
@@ -54,13 +49,13 @@ describe('<Oidc />', ()=> {
   const config = {};
 
   it('creates a UserManager with config', ()=> {
-    shallow(<Oidc config={config} />, withLifeCycle);
+    shallow(<Oidc config={config} />);
 
     expect(UserManager).toHaveBeenCalledWith(config);
   });
 
   it('signs in silently if no token on URL', ()=> {
-    shallow(<Oidc url='' />, withLifeCycle);
+    shallow(<Oidc url='' />);
 
     expect(mockUserManager.signinSilent).toHaveBeenCalledWith();
   });
@@ -72,7 +67,7 @@ describe('<Oidc />', ()=> {
       throw err;
     });
 
-    shallow(<Oidc onSigninError={onSigninError} />, withLifeCycle);
+    shallow(<Oidc onSigninError={onSigninError} />);
 
     expect(onSigninError).toHaveBeenCalledWith(err);
   });
@@ -80,7 +75,7 @@ describe('<Oidc />', ()=> {
   it('delegates to signinRedirectCallback if tokens on URL', ()=> {
     const url = 'https://example.org/my-app/#id_token=token&access_token=token';
 
-    shallow(<Oidc url={url} />, withLifeCycle);
+    shallow(<Oidc url={url} />);
 
     expect(mockUserManager.signinRedirectCallback).toHaveBeenCalledWith(url);
   });
@@ -93,13 +88,13 @@ describe('<Oidc />', ()=> {
     });
     const url = 'https://example.org/my-app/#id_token=token&access_token=token';
 
-    shallow(<Oidc url={url} onTokenError={onTokenError} />, withLifeCycle);
+    shallow(<Oidc url={url} onTokenError={onTokenError} />);
 
     expect(onTokenError).toHaveBeenCalledWith(err);
   });
 
   it('signs out with redirect', ()=> {
-    const oidc = shallow(<Oidc />, withLifeCycle);
+    const oidc = shallow(<Oidc />);
 
     oidc.setProps({needsLogout: true});
 
@@ -113,8 +108,7 @@ describe('<Oidc />', ()=> {
       throw err;
     });
     const oidc = shallow(
-      <Oidc onSignoutRedirectError={onSignoutRedirectError} />,
-      withLifeCycle
+      <Oidc onSignoutRedirectError={onSignoutRedirectError} />
     );
 
     oidc.setProps({needsLogout: true});
@@ -129,8 +123,7 @@ describe('<Oidc />', ()=> {
       throw err;
     });
     const oidc = shallow(
-      <Oidc onSigninRedirectError={onSigninRedirectError} />,
-      withLifeCycle
+      <Oidc onSigninRedirectError={onSigninRedirectError} />
     );
 
     oidc.setProps({needsLogin: true});
@@ -140,7 +133,7 @@ describe('<Oidc />', ()=> {
 
   it('signs in with redirect', ()=> {
     const state = 'test-state';
-    const oidc = shallow(<Oidc />, withLifeCycle);
+    const oidc = shallow(<Oidc />);
 
     oidc.setProps({needsLogin: true, state});
 
@@ -154,7 +147,7 @@ describe('<Oidc /> oidc-client events', ()=> {
 
   it('delegates user-loaded to props', ()=> {
     const onUserLoaded = jest.fn();
-    shallow(<Oidc onUserLoaded={onUserLoaded} />, withLifeCycle);
+    shallow(<Oidc onUserLoaded={onUserLoaded} />);
 
     const [[loaded]] = events.addUserLoaded.mock.calls;
     loaded({access_token: 'token'}); // eslint-disable-line camelcase
@@ -164,7 +157,7 @@ describe('<Oidc /> oidc-client events', ()=> {
 
   it('resets URL  when user loaded with state', ()=> {
     location.pathname = 'test-path/';
-    shallow(<Oidc />, withLifeCycle);
+    shallow(<Oidc />);
 
     const [[loaded]] = events.addUserLoaded.mock.calls;
     loaded({state: '#state'});
@@ -176,9 +169,19 @@ describe('<Oidc /> oidc-client events', ()=> {
     );
   });
 
+  it('resets URL  when user loaded with state using custom stateToUrl', ()=> {
+    shallow(<Oidc stateToUrl={(state)=> `test-${state}`} />);
+
+    const [[loaded]] = events.addUserLoaded.mock.calls;
+    loaded({state: 'state'}); // eslint-disable-line camelcase
+
+    expect(history.replaceState).toHaveBeenCalledWith(null, null, 'test-state');
+  });
+
+
   it('delegates user unloaded', ()=> {
     const onUserUnloaded= jest.fn();
-    shallow(<Oidc onUserUnloaded={onUserUnloaded} />, withLifeCycle);
+    shallow(<Oidc onUserUnloaded={onUserUnloaded} />);
 
     const [[unloaded]] = events.addUserUnloaded.mock.calls;
     unloaded();
@@ -189,7 +192,7 @@ describe('<Oidc /> oidc-client events', ()=> {
   it('delegates silent renew error', ()=> {
     const onSilentRenewError = jest.fn();
     const err = {};
-    shallow(<Oidc onSilentRenewError={onSilentRenewError} />, withLifeCycle);
+    shallow(<Oidc onSilentRenewError={onSilentRenewError} />);
 
     const [[fire]] = events.addSilentRenewError.mock.calls;
     fire(err);
@@ -199,7 +202,7 @@ describe('<Oidc /> oidc-client events', ()=> {
 
   it('delegates user expired', ()=> {
     const onUserExpired = jest.fn();
-    shallow(<Oidc onUserExpired={onUserExpired} />, withLifeCycle);
+    shallow(<Oidc onUserExpired={onUserExpired} />);
 
     const [[expired]] = events.addAccessTokenExpired.mock.calls;
     expired();
@@ -209,7 +212,7 @@ describe('<Oidc /> oidc-client events', ()=> {
 
   it('delegates user expiring', ()=> {
     const onUserExpiring= jest.fn();
-    shallow(<Oidc onUserExpiring={onUserExpiring} />, withLifeCycle);
+    shallow(<Oidc onUserExpiring={onUserExpiring} />);
 
     const [[expiring]] = events.addAccessTokenExpiring.mock.calls;
     expiring();
@@ -221,7 +224,7 @@ describe('<Oidc /> oidc-client events', ()=> {
 
 describe('<Oidc /> with expiry workaround', ()=> {
   it('sets up workaround', ()=> {
-    shallow(<Oidc />, withLifeCycle);
+    shallow(<Oidc />);
 
     expect(setupExpiryWorkaround)
       .toHaveBeenCalledWith(mockUserManager, anyFunc);
@@ -229,7 +232,7 @@ describe('<Oidc /> with expiry workaround', ()=> {
 
   it('handles user expiry', async ()=> {
     const onUserExpired = jest.fn();
-    shallow(<Oidc onUserExpired={onUserExpired} />, withLifeCycle);
+    shallow(<Oidc onUserExpired={onUserExpired} />);
 
     const [[, expired]] = setupExpiryWorkaround.mock.calls;
     await expired();

@@ -3,17 +3,20 @@
     "<rootDir>/src/testing/shim.js",
     "<rootDir>/src/testing/setup.js"
   ],
-  "transform": {
-    "^.+\\.js$": "babel-jest"
-  },
+
+  "transform": {"^.+\\.js$": "babel-jest"},
   "transformIgnorePatterns": ["/node_modules/.*"],
+
   "testRegex": "src.+\\.test\\.js$",
   "modulePathIgnorePatterns": ["build"],
   "testPathIgnorePatterns": ["node_modules", "build"],
+
   "timers": "fake",
   "clearMocks": true,
   "resetMocks": false,
+
   "collectCoverage": true,
+  "collectCoverageFrom": ["src/**/*.js"],
   "coverageDirectory": "./build/cov",
   "coverageReporters": ["lcov"],
   "coverageThreshold": {

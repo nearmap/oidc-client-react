@@ -33,7 +33,7 @@ export default ()=> {
     localStorage.setItem('test-ios-private-browsing', 'has-issues');
     localStorage.removeItem('test-ios-private-browsing');
     return {};
-  } catch (err) {
+  } catch {
     return {
       // We need to fallback to using a cookie to store the current state
       // of the app, as it needs to survive a redirtect to the login page.
