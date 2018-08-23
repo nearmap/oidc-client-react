@@ -11,7 +11,7 @@
     "lint": "run-s -s lint:*",
     "clean-build": "run-s clean build",
     "build": "run-s clean build:* pkg:*",
-    "build:lib": "babel --ignore *.test.js --source-maps --out-dir build/pkg src",
+    "build:lib": "babel src --verbose --source-maps --out-dir build/pkg",
     "pkg:pkg": "cp package.json build/pkg/",
     "pkg:html": "cp src/silent_renew.html build/pkg/",
     "pkg:docs": "cp README.md build/pkg/",

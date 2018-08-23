@@ -17,6 +17,7 @@ module.exports = {
     // Used as the default for running babel-node scripts
     development: {
       sourceMaps: 'both',
+      ignore: ['**/*.test.js'],
       presets: [
         ['@babel/preset-env', {
           useBuiltIns: 'usage',
