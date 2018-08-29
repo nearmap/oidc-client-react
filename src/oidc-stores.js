@@ -1,4 +1,5 @@
-import {WebStorageStateStore, InMemoryWebStorage} from 'oidc-client';
+import {InMemoryWebStorage} from 'oidc-client/src/InMemoryWebStorage.js';
+import {WebStorageStateStore} from 'oidc-client/src/WebStorageStateStore.js';
 import {document, localStorage} from './globals';
 
 

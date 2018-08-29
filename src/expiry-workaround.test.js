@@ -2,6 +2,7 @@ import {document} from './globals';
 
 import setupExpiryWorkaround from './expiry-workaround';
 
+
 jest.mock('./globals', ()=> ({
   document: {addEventListener: jest.fn()}
 }));

@@ -5,7 +5,9 @@
   ],
 
   "transform": {"^.+\\.js$": "babel-jest"},
-  "transformIgnorePatterns": ["/node_modules/.*"],
+  "transformIgnorePatterns": [
+    "<rootDir>/node_modules/(?!(oidc-client)/).*"
+  ],
 
   "testRegex": "src.+\\.test\\.js$",
   "modulePathIgnorePatterns": ["build"],
