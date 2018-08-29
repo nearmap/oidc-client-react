@@ -1,10 +1,10 @@
-import {UserManager} from 'oidc-client/src/UserManager';
+import {UserManager} from 'oidc-client/lib/oidc-client';
 
 const mockUserManager = {
   signinSilentCallback: jest.fn()
 };
 
-jest.mock('oidc-client/src/UserManager', ()=> ({
+jest.mock('oidc-client/lib/oidc-client', ()=> ({
   UserManager: jest.fn(()=> mockUserManager)
 }));
 

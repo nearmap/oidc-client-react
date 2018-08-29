@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import jwtDecode from 'jwt-decode';
-import {UserManager} from 'oidc-client/src/UserManager';
+import {UserManager} from 'oidc-client/lib/oidc-client';
 
 import {location, history} from './globals';
 

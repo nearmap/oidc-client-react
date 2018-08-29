@@ -1,4 +1,4 @@
-import {UserManager} from 'oidc-client/src/UserManager';
+import {UserManager} from 'oidc-client/lib/oidc-client';
 
 
 const processSilentRenew = ()=> {

@@ -1,6 +1,6 @@
 {
   "name": "oidc-client-react",
-  "version": "0.1.0-alpha.8",
+  "version": "0.1.0-alpha.10",
   "description": "A react wrapper for oidc-client",
   "main": "index.js",
   "scripts": {

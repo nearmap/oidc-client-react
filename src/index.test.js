@@ -1,5 +1,5 @@
 import React from 'react';
-import {UserManager} from 'oidc-client/src/UserManager';
+import {UserManager} from 'oidc-client/lib/oidc-client';
 import {shallow} from 'enzyme';
 
 import {location, history} from './globals';
@@ -23,7 +23,7 @@ const mockUserManager = {
   signinSilent: jest.fn()
 };
 
-jest.mock('oidc-client/src/UserManager', ()=> ({
+jest.mock('oidc-client/lib/oidc-client', ()=> ({
   UserManager: jest.fn(()=> mockUserManager)
 }));
 
