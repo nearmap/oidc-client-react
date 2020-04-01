@@ -112,9 +112,16 @@ export default class Oidc extends React.Component {
   handleUserLoaded(user) {
     const accessToken = user.access_token;
     const claims = jwtDecode(accessToken);
-    const {state} = user;
+    let {state} = user;
 
     if (state !== undefined) {
+      // check if state is a stringified json object which contains a
+      // `hash` field storing the URL hash fragment
+      if (state.charAt(0) === '{') {
+        state = JSON.parse(state);
+        state = state.hash;
+      }
+
       // when we come back from a signinRedirect we should
       // remove the token data from the URL and replace it with the
       // state we had before the user was redirected away from the app

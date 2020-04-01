@@ -22,6 +22,31 @@ describe('connect', ()=> {
     });
   });
 
+  it('maps state to props with additional application state', ()=> {
+    const config = 'test-config';
+    const location = {href: 'test-href', hash: 'test-hash'};
+    const state = {oidc: {loginRequired: true, logoutRequired: false}};
+    const appState = JSON.stringify({
+      app: 'mercury',
+      hash: 'test-hash',
+      pathname: '/test-path/'
+    });
+
+    const mapStateToProps = getMapStateToProps(
+      config, location, 'oidc', appState
+    );
+
+    expect(
+      mapStateToProps(state)
+    ).toEqual({
+      config,
+      url: 'test-href',
+      state: '{"app":"mercury","hash":"test-hash","pathname":"/test-path/"}',
+      needsLogin: true,
+      needsLogout: false
+    });
+  });
+
 
   it('maps state to props using custom store key', ()=> {
     const config = 'test-config';

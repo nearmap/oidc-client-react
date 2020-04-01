@@ -155,7 +155,7 @@ describe('<Oidc /> oidc-client events', ()=> {
     expect(onUserLoaded).toHaveBeenCalledWith({test: 'token'}, 'token');
   });
 
-  it('resets URL  when user loaded with state', ()=> {
+  it('resets URL when user loaded with state', ()=> {
     location.pathname = 'test-path/';
     shallow(<Oidc />);
 
@@ -169,7 +169,21 @@ describe('<Oidc /> oidc-client events', ()=> {
     );
   });
 
-  it('resets URL  when user loaded with state using custom stateToUrl', ()=> {
+  it('resets URL when user loaded with an application state json object', ()=> {
+    location.pathname = 'test-path/';
+    shallow(<Oidc />);
+
+    const [[loaded]] = events.addUserLoaded.mock.calls;
+    loaded({state: JSON.stringify({hash: '#state'})});
+
+    expect(
+      history.replaceState
+    ).toHaveBeenCalledWith(
+      null, null, 'test-path/#state'
+    );
+  });
+
+  it('resets URL when user loaded with state using custom stateToUrl', ()=> {
     shallow(<Oidc stateToUrl={(state)=> `test-${state}`} />);
 
     const [[loaded]] = events.addUserLoaded.mock.calls;
