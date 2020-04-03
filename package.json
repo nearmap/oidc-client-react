@@ -2,7 +2,7 @@
   "name": "oidc-client-react",
   "version": "0.1.0-alpha.11",
   "description": "A react wrapper for oidc-client",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "clean": "rimraf ./build",
     "lint:js": "eslint --ignore-path .gitignore .",
