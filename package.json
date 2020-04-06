@@ -19,7 +19,7 @@
     "lib:pkg": "cp package.json lib/",
     "lib:html": "cp src/silent_renew.html lib/",
     "lib:docs": "cp README.md lib/",
-    "install": "npm run build:lib",
+    "install": "npm run build:lib && npm run lib:html && npm run lib:pkg",
     "test": "run-s -s lint jest",
     "preci": "npm --loglevel=warn install",
     "ci": "run-s -s clean test build"
