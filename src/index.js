@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-console */
 import React from 'react';
 import PropTypes from 'prop-types';
 import jwtDecode from 'jwt-decode';
@@ -76,20 +74,16 @@ export default class Oidc extends React.Component {
 
   async checkTokenUrl(url) {
     try {
-      console.log('oidc-client-react checkTokenUrl', url);
       await this.userManager.signinRedirectCallback(url);
     } catch (err) {
-      console.log('oidc-client-react checkTokenUrl', err);
       this.handle(this.props.onTokenError, err);
     }
   }
 
   async signinRedirect(...args) {
     try {
-      console.log('oidc-client-react signinRedirect', args);
       await this.userManager.signinRedirect(...args);
     } catch (err) {
-      console.log('oidc-client-react signinRedirect', err);
       this.handle(this.props.onSigninRedirectError, err);
     }
   }
