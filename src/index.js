@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import jwtDecode from 'jwt-decode';
-import {UserManager} from 'oidc-client/lib/oidc-client';
+import {UserManager, Log} from 'oidc-client/lib/oidc-client';
 
 import {location, history} from './globals';
 
@@ -12,6 +12,11 @@ const containsAccessToken = /\baccess_token=.+/;
 const containsIdToken = /\bid_token=.+/;
 const defaultSinginRetries = 5;
 
+/* istanbul ignore next */
+// eslint-disable-next-line no-undef
+Log.logger = console;
+/* istanbul ignore next */
+Log.level = Log.DEBUG;
 
 export default class Oidc extends React.Component {
   static propTypes = {
