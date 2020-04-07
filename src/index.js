@@ -139,7 +139,7 @@ export default class Oidc extends React.Component {
     this.handle(this.props.onUserLoaded, claims, accessToken);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const {config, url} = this.props;
     this.userManager = new UserManager(config);
 
@@ -147,21 +147,21 @@ export default class Oidc extends React.Component {
     setupExpiryWorkaround(this.userManager, ()=> this.handleUserExpired());
 
     if (containsAccessToken.test(url) && containsIdToken.test(url)) {
-      this.checkTokenUrl(url);
+      await this.checkTokenUrl(url);
     } else {
-      this.signinSilent();
+      await this.signinSilent();
     }
   }
 
-  componentDidUpdate() {
+  async componentDidUpdate() {
     const {state, needsLogin, needsLogout} = this.props;
 
     if (needsLogout) {
-      this.signoutRedirect();
+      await this.signoutRedirect();
     }
 
     if (needsLogin) {
-      this.signinRedirect({state});
+      await this.signinRedirect({state});
     }
   }
 
