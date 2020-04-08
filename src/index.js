@@ -114,7 +114,10 @@ export default class Oidc extends React.Component {
     await this.signinSilentWithRetries(signinRetries || defaultSinginRetries);
   }
 
+  // eslint-disable-next-line max-statements
   handleUserLoaded(user) {
+    // eslint-disable-next-line no-console, no-undef
+    console.log('handleUserLoaded', user);
     const accessToken = user.access_token;
     const claims = jwtDecode(accessToken);
     let {state} = user;
