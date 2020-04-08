@@ -139,29 +139,37 @@ export default class Oidc extends React.Component {
     this.handle(this.props.onUserLoaded, claims, accessToken);
   }
 
-  async componentDidMount() {
-    const {config, url} = this.props;
+  // eslint-disable-next-line max-statements
+  componentDidMount() {
+    const {config, url, state} = this.props;
     this.userManager = new UserManager(config);
 
     this.setupEventDispatchers();
     setupExpiryWorkaround(this.userManager, ()=> this.handleUserExpired());
 
     if (containsAccessToken.test(url) && containsIdToken.test(url)) {
-      await this.checkTokenUrl(url);
+      const user = this.userManager.getUser();
+      /* istanbul ignore if */
+      if (user) {
+        user.state = state;
+        this.handleUserLoaded(user);
+      } else {
+        this.checkTokenUrl(url);
+      }
     } else {
-      await this.signinSilent();
+      this.signinSilent();
     }
   }
 
-  async componentDidUpdate() {
+  componentDidUpdate() {
     const {state, needsLogin, needsLogout} = this.props;
 
     if (needsLogout) {
-      await this.signoutRedirect();
+      this.signoutRedirect();
     }
 
     if (needsLogin) {
-      await this.signinRedirect({state});
+      this.signinRedirect({state});
     }
   }
 

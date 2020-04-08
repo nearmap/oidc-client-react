@@ -20,7 +20,8 @@ const mockUserManager = {
   signinRedirectCallback: jest.fn(),
   signinRedirect: jest.fn(),
   signoutRedirect: jest.fn(),
-  signinSilent: jest.fn()
+  signinSilent: jest.fn(),
+  getUser: jest.fn()
 };
 
 jest.mock('oidc-client/lib/oidc-client', ()=> ({
