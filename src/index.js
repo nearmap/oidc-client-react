@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import jwtDecode from 'jwt-decode';
-import {UserManager, Log} from 'oidc-client/lib/oidc-client';
+import {UserManager, Log, UrlUtility} from 'oidc-client/lib/oidc-client';
 
 import {location, history} from './globals';
 
@@ -152,6 +152,8 @@ export default class Oidc extends React.Component {
       /* istanbul ignore if */
       if (user) {
         user.state = state;
+        // eslint-disable-next-line camelcase
+        user.access_token = UrlUtility.parseUrlFragment(state).access_token;
         this.handleUserLoaded(user);
       } else {
         this.checkTokenUrl(url);
