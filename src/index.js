@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import jwtDecode from 'jwt-decode';
-import {UserManager, Log} from 'oidc-client/lib/oidc-client';
+import {UserManager, Log, UrlUtility} from 'oidc-client/lib/oidc-client';
 
 import {location, history} from './globals';
 
@@ -141,7 +141,7 @@ export default class Oidc extends React.Component {
 
   // eslint-disable-next-line max-statements
   componentDidMount() {
-    const {config, url} = this.props;
+    const {config, url, state} = this.props;
     this.userManager = new UserManager(config);
 
     this.setupEventDispatchers();
@@ -151,6 +151,12 @@ export default class Oidc extends React.Component {
       const user = this.userManager.getUser();
       /* istanbul ignore if */
       if (user) {
+        user.state = state;
+        const urlFragment = url.split('#')[1];
+        // eslint-disable-next-line camelcase
+        user.access_token =
+        // eslint-disable-next-line camelcase
+          UrlUtility.parseUrlFragment(urlFragment).access_token;
         this.handleUserLoaded(user);
       } else {
         this.checkTokenUrl(url);
