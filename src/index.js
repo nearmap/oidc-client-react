@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import jwtDecode from 'jwt-decode';
-import {UserManager, Log, UrlUtility} from 'oidc-client/lib/oidc-client';
+import {UserManager, Log} from 'oidc-client/lib/oidc-client';
 
 import {location, history} from './globals';
 
@@ -158,8 +158,8 @@ export default class Oidc extends React.Component {
         const urlFragment = url.split('#')[1];
         // eslint-disable-next-line camelcase
         user.access_token =
-        // eslint-disable-next-line camelcase
-          UrlUtility.parseUrlFragment(urlFragment).access_token;
+        // eslint-disable-next-line no-undef
+          new URLSearchParams(urlFragment).get('access_token');
         this.handleUserLoaded(user);
       } else {
         this.checkTokenUrl(url);
