@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import jwtDecode from 'jwt-decode';
-import {UserManager, Log} from 'oidc-client/lib/oidc-client';
+import {UserManager} from 'oidc-client/lib/oidc-client';
 
 import {location, history} from './globals';
 
@@ -11,12 +11,6 @@ import setupExpiryWorkaround from './expiry-workaround.js';
 const containsAccessToken = /\baccess_token=.+/;
 const containsIdToken = /\bid_token=.+/;
 const defaultSinginRetries = 5;
-
-/* istanbul ignore next */
-// eslint-disable-next-line no-undef
-Log.logger = console;
-/* istanbul ignore next */
-Log.level = Log.DEBUG;
 
 export default class Oidc extends React.Component {
   static propTypes = {
@@ -143,7 +137,7 @@ export default class Oidc extends React.Component {
   }
 
   // eslint-disable-next-line max-statements
-  componentDidMount() {
+  async componentDidMount() {
     const {config, url, state} = this.props;
     this.userManager = new UserManager(config);
 
@@ -151,7 +145,7 @@ export default class Oidc extends React.Component {
     setupExpiryWorkaround(this.userManager, ()=> this.handleUserExpired());
 
     if (containsAccessToken.test(url) && containsIdToken.test(url)) {
-      const user = this.userManager.getUser();
+      const user = await this.userManager.getUser();
       /* istanbul ignore if */
       if (user) {
         user.state = state;
@@ -162,10 +156,10 @@ export default class Oidc extends React.Component {
           new URLSearchParams(urlFragment).get('access_token');
         this.handleUserLoaded(user);
       } else {
-        this.checkTokenUrl(url);
+        await this.checkTokenUrl(url);
       }
     } else {
-      this.signinSilent();
+      await this.signinSilent();
     }
   }
 

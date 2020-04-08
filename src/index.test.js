@@ -25,8 +25,7 @@ const mockUserManager = {
 };
 
 jest.mock('oidc-client/lib/oidc-client', ()=> ({
-  UserManager: jest.fn(()=> mockUserManager),
-  Log: {}
+  UserManager: jest.fn(()=> mockUserManager)
 }));
 
 jest.mock('jwt-decode', ()=> (token)=> ({test: token}));
