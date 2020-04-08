@@ -158,9 +158,9 @@
     }],*/
     "max-depth": ["error", 4],
     "max-len": ["error", 80, 4, {"ignoreUrls": true}],
-    "max-nested-callbacks": ["error", 3],
+    "max-nested-callbacks": ["error", 10],
     "max-params": ["error", 4],
-    "max-statements": ["error", 10, {"ignoreTopLevelFunctions": false}],
+    "max-statements": ["error", 15, {"ignoreTopLevelFunctions": false}],
     "new-cap": "error",
     "new-parens": "error",
     //"newline-after-var": ["error", "always"],

@@ -108,10 +108,7 @@ export default class Oidc extends React.Component {
     await this.signinSilentWithRetries(signinRetries || defaultSinginRetries);
   }
 
-  // eslint-disable-next-line max-statements
   handleUserLoaded(user) {
-    // eslint-disable-next-line no-console, no-undef
-    console.log('handleUserLoaded', user);
     const accessToken = user.access_token;
     const claims = jwtDecode(accessToken);
     let {state} = user;
@@ -136,7 +133,6 @@ export default class Oidc extends React.Component {
     this.handle(this.props.onUserLoaded, claims, accessToken);
   }
 
-  // eslint-disable-next-line max-statements
   async componentDidMount() {
     const {config, url, state} = this.props;
     this.userManager = new UserManager(config);
@@ -145,15 +141,30 @@ export default class Oidc extends React.Component {
     setupExpiryWorkaround(this.userManager, ()=> this.handleUserExpired());
 
     if (containsAccessToken.test(url) && containsIdToken.test(url)) {
+      // Use user if already available in local store to avoid
+      // an inconvenient `Error: No matching state found in storage`
+      // exception due to a racing condition where user gets removed
+      // from local store before it can be used by
+      // userManager.signinRedirectCallback() logic in this.checkTokenUrl()
+      // ---
+      // logic removing user from local storage:
+      // https://github.com/IdentityModel/oidc-client-js/blob/96c45ba9bd6b8d87f0de132306170dbbf7898140/src/OidcClient.js#L116
+      // issue description:
+      // https://github.com/IdentityModel/oidc-client-js/issues/93
       const user = await this.userManager.getUser();
-      /* istanbul ignore if */
       if (user) {
         user.state = state;
+
+        // Consider the access token supplied by the URL fragment coming from
+        // the OIDC handler at root as the source of truth. Override current
+        // access token hold in local store as potentially expired or reflecting
+        // a wrong state
         const urlFragment = url.split('#')[1];
         // eslint-disable-next-line camelcase
         user.access_token =
         // eslint-disable-next-line no-undef
           new URLSearchParams(urlFragment).get('access_token');
+
         this.handleUserLoaded(user);
       } else {
         await this.checkTokenUrl(url);

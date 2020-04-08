@@ -73,25 +73,50 @@ describe('<Oidc />', ()=> {
     expect(onSigninError).toHaveBeenCalledWith(err);
   });
 
-  it('delegates to signinRedirectCallback if tokens on URL', ()=> {
-    const url = 'https://example.org/my-app/#id_token=token&access_token=token';
+  describe('when access token is present in URL fragment', ()=> {
+    describe('when no user available in local store', ()=> {
+      it('delegates to signinRedirectCallback if tokens on URL', async ()=> {
+        const url = 'https://example.org/my-app/#id_token=token&access_token=token';
+        mockUserManager.getUser.mockImplementation(()=> null);
 
-    shallow(<Oidc url={url} />);
+        await shallow(<Oidc url={url} />);
 
-    expect(mockUserManager.signinRedirectCallback).toHaveBeenCalledWith(url);
-  });
+        expect(mockUserManager.signinRedirectCallback)
+          .toHaveBeenCalledWith(url);
+      });
 
-  it('reports token error', ()=> {
-    const onTokenError = jest.fn();
-    const err = new Error('test');
-    mockUserManager.signinRedirectCallback.mockImplementation(()=> {
-      throw err;
+      it('reports token error', async ()=> {
+        const onTokenError = jest.fn();
+        const err = new Error('test');
+        mockUserManager.signinRedirectCallback.mockImplementation(()=> {
+          throw err;
+        });
+        mockUserManager.getUser.mockImplementation(()=> null);
+        const url = 'https://example.org/my-app/#id_token=token&access_token=token';
+
+        await shallow(<Oidc url={url} onTokenError={onTokenError} />);
+
+        expect(onTokenError).toHaveBeenCalledWith(err);
+      });
     });
-    const url = 'https://example.org/my-app/#id_token=token&access_token=token';
 
-    shallow(<Oidc url={url} onTokenError={onTokenError} />);
+    describe('when user available in local store', ()=> {
+      it('handles available user', async ()=> {
+        location.pathname = 'test-path/';
+        const url = 'https://example.org/test-path/#id_token=token&access_token=token';
+        mockUserManager.getUser.mockImplementation(()=> Promise.resolve({
+          // eslint-disable-next-line camelcase
+          access_token: 'token'
+        }));
 
-    expect(onTokenError).toHaveBeenCalledWith(err);
+        await shallow(<Oidc
+          url={url}
+          state={JSON.stringify({hash: '#state'})}
+        />);
+
+        expect(mockUserManager.signinRedirectCallback).not.toHaveBeenCalled();
+      });
+    });
   });
 
   it('signs out with redirect', ()=> {
